@@ -30,7 +30,18 @@ class Flight(models.Model):
     #  any function can use the __str__ method to get a string representation of any object.
     def __str__(self):
         return f"{self.id}: {self.origin} to {self.destination}"
+class Passenger(models.Model):
+    first = models.CharField(max_length=64)
+    last = models.CharField(max_length=64)
 
+    # every passenger has 1 or more flights associated wirh them, therefore we use ManyToManyField to show that realtionship
+    # blank = True means that a passenger can have no flights associated with them.
+    # related_name is the name we can use for the set of flights a passenger has.
+    flights = models.ManyToManyField(Flight, blank=True, related_name="passengers")
+    
+    # the string representation of a passenger is their first and last name.
+    def __str__(self):
+        return f"{self.first} {self.last}"
 
     ''' inital implementation Flight model
 
